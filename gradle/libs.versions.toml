@@ -1,17 +1,15 @@
 [versions]
-
 kotlin = "1.9.21"
 compose = "1.5.11"
-agp = "8.2.0"
+agp = "8.2.1"
 androidx-appcompat = "1.6.1"
-androidx-activityCompose = "1.8.1"
+androidx-activityCompose = "1.8.2"
 compose-uitooling = "1.5.4"
 kotlinx-coroutines = "1.7.3"
 ktor = "2.3.7"
 kotlinx-serialization = "1.6.2"
 
 [libraries]
-
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 compose-uitooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-uitooling" }
@@ -22,7 +20,6 @@ ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "kto
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 [plugins]
-
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 android-application = { id = "com.android.application", version.ref = "agp" }

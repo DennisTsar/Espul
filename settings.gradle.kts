@@ -1,6 +1,3 @@
-rootProject.name = "Espul"
-include(":composeApp")
-
 pluginManagement {
     repositories {
         google()
@@ -11,9 +8,14 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
     repositories {
         google()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
+
+rootProject.name = "Espul"
+
+include(":composeApp")

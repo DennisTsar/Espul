@@ -29,6 +29,7 @@ kotlin {
                 optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
             }
         }
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.material3)
@@ -61,7 +62,6 @@ kotlin {
         jsMain.dependencies {
             implementation(compose.html.core)
         }
-
     }
 }
 
