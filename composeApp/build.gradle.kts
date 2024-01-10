@@ -37,8 +37,11 @@ kotlin {
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.ktor.core)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.ballast.core)
+            implementation(libs.ballast.navigation)
+            implementation(libs.bundles.coil)
+            implementation(projects.githubApi)
         }
 
         commonTest.dependencies {
@@ -57,6 +60,7 @@ kotlin {
             implementation(compose.desktop.common)
             implementation(compose.desktop.currentOs)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.kotlinx.coroutines.swing)
         }
 
         jsMain.dependencies {
