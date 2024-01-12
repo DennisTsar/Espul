@@ -6,13 +6,15 @@ agp = "8.2.1"
 androidx-appcompat = "1.6.1"
 androidx-activityCompose = "1.8.2"
 ballast = "4.0.0"
-coil = "3.0.0-alpha01"
+coil = "3.0.0-alpha02"
 compose-uitooling = "1.5.4"
+human-readable = "1.2.0"
 ktor = "3.0.0-beta-1"
 kotlinx-coroutines = "1.8.0-RC2"
 kotlinx-datetime = "0.5.0"
 kotlinx-serialization = "1.6.2"
 markdown = "0.6.1"
+window-size = "0.5.0-alpha03"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -39,10 +41,17 @@ ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "kto
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 
 markdown = { module = "org.jetbrains:markdown", version.ref = "markdown" }
+# TODO: Replace with official version when it supports multiplatform
+# https://github.com/JetBrains/compose-multiplatform/issues/2404
+material3-window-size = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "window-size" }
+
+time-formatter = { module = "nl.jacobras:human-readable", version.ref = "human-readable" }
+
 [bundles]
 coil = [
     "coil", "coil-compose", "coil-network"

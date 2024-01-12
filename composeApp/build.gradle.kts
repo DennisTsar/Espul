@@ -34,7 +34,6 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.material3)
-            implementation(compose.materialIconsExtended)
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(libs.kotlinx.coroutines.core)
@@ -42,6 +41,10 @@ kotlin {
             implementation(libs.ballast.core)
             implementation(libs.ballast.navigation)
             implementation(libs.bundles.coil)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.time.formatter)
+            implementation(libs.material3.window.size)
+            implementation(projects.markdownRenderer)
             implementation(projects.githubApi)
         }
 
