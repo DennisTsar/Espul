@@ -14,10 +14,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api("org.jetbrains:markdown:0.6.1")
-            // TODO: maybe compileOnly
             implementation(compose.runtime)
             implementation(compose.material3)
+            api(libs.markdown)
         }
     }
 }
