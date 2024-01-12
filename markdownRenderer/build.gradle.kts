@@ -17,9 +17,7 @@ kotlin {
             api("org.jetbrains:markdown:0.6.1")
             // TODO: maybe compileOnly
             implementation(compose.runtime)
-            implementation(compose.ui)
-            implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
         }
     }
 }

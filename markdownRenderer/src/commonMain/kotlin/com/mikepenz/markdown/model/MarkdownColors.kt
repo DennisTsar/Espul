@@ -1,6 +1,6 @@
 package com.mikepenz.markdown.model
 
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
@@ -35,10 +35,10 @@ private class DefaultMarkdownColors(
 
 @Composable
 fun markdownColor(
-    text: Color = MaterialTheme.colors.onBackground,
-    codeText: Color = MaterialTheme.colors.onBackground,
+    text: Color = MaterialTheme.colorScheme.onBackground,
+    codeText: Color = MaterialTheme.colorScheme.onBackground,
     linkText: Color = text,
-    codeBackground: Color = MaterialTheme.colors.onBackground.copy(alpha = 0.1f),
+    codeBackground: Color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
     inlineCodeBackground: Color = codeBackground,
 ): MarkdownColors = DefaultMarkdownColors(
     text = text,

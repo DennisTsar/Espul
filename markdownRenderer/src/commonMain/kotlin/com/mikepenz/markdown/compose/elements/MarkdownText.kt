@@ -4,7 +4,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.text.InlineTextContent
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -22,7 +22,6 @@ import com.mikepenz.markdown.compose.LocalReferenceLinkHandler
 import com.mikepenz.markdown.model.rememberMarkdownImageState
 import com.mikepenz.markdown.utils.TAG_IMAGE_URL
 import com.mikepenz.markdown.utils.TAG_URL
-
 
 @Composable
 internal fun MarkdownText(
