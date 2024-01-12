@@ -79,9 +79,11 @@ internal fun AnnotatedString.Builder.buildMarkdownAnnotatedString(content: Strin
                         background = LocalMarkdownColors.current.inlineCodeBackground
                     )
                 )
-                append(' ')
+                // Highlighted text looks bad if the space is skipped due to a line break,
+                // so we use a non-breaking space
+                append(Typography.nbsp)
                 buildMarkdownAnnotatedString(content, child.children.innerList())
-                append(' ')
+                append(Typography.nbsp)
                 pop()
             }
 
