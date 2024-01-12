@@ -22,3 +22,4 @@ rootProject.name = "Espul"
 
 include(":composeApp")
 include(":githubApi")
+include("markdownRenderer")
