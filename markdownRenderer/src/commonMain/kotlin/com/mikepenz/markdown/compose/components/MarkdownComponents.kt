@@ -1,6 +1,8 @@
 package com.mikepenz.markdown.compose.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
@@ -49,6 +51,7 @@ fun markdownComponents(
     unorderedList: MarkdownComponent = CurrentComponentsBridge.unorderedList,
     image: MarkdownComponent = CurrentComponentsBridge.image,
     linkDefinition: MarkdownComponent = CurrentComponentsBridge.linkDefinition,
+    horizontalRule: MarkdownComponent = CurrentComponentsBridge.horizontalRule,
     custom: CustomMarkdownComponent? = CurrentComponentsBridge.custom,
 ): MarkdownComponents = DefaultMarkdownComponents(
     text = text,
@@ -69,6 +72,7 @@ fun markdownComponents(
     unorderedList = unorderedList,
     image = image,
     linkDefinition = linkDefinition,
+    horizontalRule = horizontalRule,
     custom = custom,
 )
 
@@ -95,6 +99,7 @@ interface MarkdownComponents {
     val unorderedList: MarkdownComponent
     val image: MarkdownComponent
     val linkDefinition: MarkdownComponent
+    val horizontalRule: MarkdownComponent
     val custom: CustomMarkdownComponent?
 }
 
@@ -117,6 +122,7 @@ private class DefaultMarkdownComponents(
     override val unorderedList: MarkdownComponent,
     override val image: MarkdownComponent,
     override val linkDefinition: MarkdownComponent,
+    override val horizontalRule: MarkdownComponent,
     override val custom: CustomMarkdownComponent?,
 ) : MarkdownComponents
 
@@ -186,6 +192,9 @@ object CurrentComponentsBridge {
                 ?.getTextInNode(it.content)?.toString()
             LocalReferenceLinkHandler.current.store(linkLabel, destination)
         }
+    }
+    val horizontalRule: MarkdownComponent = {
+        Divider(Modifier.fillMaxWidth())
     }
     val custom: CustomMarkdownComponent? = null
 }

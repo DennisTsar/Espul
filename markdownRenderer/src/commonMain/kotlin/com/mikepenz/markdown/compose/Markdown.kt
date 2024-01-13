@@ -28,6 +28,7 @@ import org.intellij.markdown.MarkdownElementTypes.SETEXT_1
 import org.intellij.markdown.MarkdownElementTypes.SETEXT_2
 import org.intellij.markdown.MarkdownElementTypes.UNORDERED_LIST
 import org.intellij.markdown.MarkdownTokenTypes.Companion.EOL
+import org.intellij.markdown.MarkdownTokenTypes.Companion.HORIZONTAL_RULE
 import org.intellij.markdown.MarkdownTokenTypes.Companion.TEXT
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.flavours.MarkdownFlavourDescriptor
@@ -93,6 +94,7 @@ private fun ASTNode.handleElement(components: MarkdownComponents, content: Strin
         UNORDERED_LIST -> components.unorderedList(model)
         IMAGE -> components.image(model)
         LINK_DEFINITION -> components.linkDefinition(model)
+        HORIZONTAL_RULE -> components.horizontalRule(model)
         else -> {
             handled = components.custom?.invoke(type, model) != null
         }
