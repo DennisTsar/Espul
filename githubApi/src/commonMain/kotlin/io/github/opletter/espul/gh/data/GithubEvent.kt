@@ -1,6 +1,5 @@
-package io.github.opletter.espul.gh
+package io.github.opletter.espul.gh.data
 
-import io.github.opletter.espul.gh.data.*
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -62,13 +61,24 @@ data class CreateEvent(
     data class Payload(
         val ref: String?,
         @SerialName("ref_type")
-        val refType: String, // Can be either `branch` or `tag`
+        val refType: RefType,
         @SerialName("master_branch")
         val masterBranch: String,
         val description: String?,
         @SerialName("pusher_type")
         val pusherType: String? = null, // Not in the docs
     ) : GithubEventPayload
+
+    enum class RefType {
+        @SerialName("branch")
+        BRANCH,
+
+        @SerialName("repository")
+        REPOSITORY,
+
+        @SerialName("tag")
+        TAG,
+    }
 }
 
 @Serializable
@@ -89,10 +99,18 @@ data class DeleteEvent(
     data class Payload(
         val ref: String,
         @SerialName("ref_type")
-        val refType: String, // Can be either `branch` or `tag`
+        val refType: RefType,
         @SerialName("pusher_type")
         val pusherType: String? = null, // Not in the docs
     ) : GithubEventPayload
+
+    enum class RefType {
+        @SerialName("branch")
+        BRANCH,
+
+        @SerialName("tag")
+        TAG,
+    }
 }
 
 @Serializable
@@ -341,13 +359,7 @@ data class ReleaseEvent(
         val action: String, // Can be one of `published` (or `edited`?)
         val changes: String? = null,
         val release: Release,
-    ) : GithubEventPayload {
-        init {
-            if (changes != null) {
-                println(changes)
-            }
-        }
-    }
+    ) : GithubEventPayload
 }
 
 @Serializable
