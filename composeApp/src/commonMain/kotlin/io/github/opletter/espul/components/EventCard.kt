@@ -88,8 +88,7 @@ fun EventCard(event: GithubEvent<*>) {
 
 @Composable
 private fun SimpleMarkdown(text: String, modifier: Modifier = Modifier) {
-    val filteredText = text.replace("\r\n", "\n").substringBefore("---\n")
-        .takeIf { it.isNotBlank() } ?: return
+    val filteredText = text.replace("\r\n", "\n").takeIf { it.isNotBlank() } ?: return
     Card(
         modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceVariant),
@@ -98,6 +97,15 @@ private fun SimpleMarkdown(text: String, modifier: Modifier = Modifier) {
         Markdown(
             filteredText,
             modifier = Modifier.padding(6.dp),
+            // match github's markdown style more closely
+            typography = markdownTypography(
+                h1 = MaterialTheme.typography.headlineLarge,
+                h2 = MaterialTheme.typography.headlineSmall,
+                h3 = MaterialTheme.typography.titleLarge,
+                h4 = MaterialTheme.typography.titleMedium,
+                h5 = MaterialTheme.typography.titleSmall,
+                h6 = MaterialTheme.typography.bodyLarge,
+            ),
         )
     }
 }
@@ -208,7 +216,12 @@ private fun GithubEvent<*>.toEventCardData(): EventCardData {
                 title = "$action PR",
                 url = payload.pullRequest.htmlUrl,
                 subhead = payload.pullRequest.title,
-                content = payload.pullRequest.body?.let { { SimpleMarkdown(it) } },
+                content = payload.pullRequest.body?.let {
+                    {
+                        // many PRs have auto-generated text below the divider
+                        SimpleMarkdown(it.substringBefore("---\n"))
+                    }
+                },
             )
         }
 
