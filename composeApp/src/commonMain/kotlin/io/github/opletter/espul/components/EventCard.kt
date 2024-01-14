@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mikepenz.markdown.compose.Markdown
+import com.mikepenz.markdown.model.markdownPadding
 import com.mikepenz.markdown.model.markdownTypography
 import io.github.opletter.espul.gh.data.*
 import io.github.opletter.espul.openUrl
@@ -105,6 +106,11 @@ private fun SimpleMarkdown(text: String, modifier: Modifier = Modifier) {
                 h4 = MaterialTheme.typography.titleMedium,
                 h5 = MaterialTheme.typography.titleSmall,
                 h6 = MaterialTheme.typography.bodyLarge,
+            ),
+            padding = markdownPadding(
+                list = 4.dp,
+                listItemBottom = 2.dp,
+                indentList = 4.dp,
             ),
         )
     }
