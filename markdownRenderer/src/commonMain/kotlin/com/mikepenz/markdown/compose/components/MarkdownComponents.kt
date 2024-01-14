@@ -2,7 +2,6 @@ package com.mikepenz.markdown.compose.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
@@ -168,7 +167,7 @@ object CurrentComponentsBridge {
         MarkdownBlockQuote(it.content, it.node)
     }
     val paragraph: MarkdownComponent = {
-        MarkdownParagraph(it.content, it.node, it.typography.paragraph)
+        MarkdownParagraph(it.content, it.node, style = it.typography.paragraph)
     }
     val orderedList: MarkdownComponent = {
         Column(modifier = Modifier) {
@@ -194,7 +193,7 @@ object CurrentComponentsBridge {
         }
     }
     val horizontalRule: MarkdownComponent = {
-        Divider(Modifier.fillMaxWidth())
+        MarkdownDivider(Modifier.fillMaxWidth())
     }
     val custom: CustomMarkdownComponent? = null
 }
