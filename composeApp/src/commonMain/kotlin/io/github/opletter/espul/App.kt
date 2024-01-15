@@ -2,7 +2,7 @@ package io.github.opletter.espul
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -17,6 +17,7 @@ import coil3.ImageLoader
 import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.setSingletonImageLoaderFactory
 import com.russhwolf.settings.Settings
+import io.github.opletter.espul.components.icons.*
 import io.github.opletter.espul.screens.FeedScreen
 import io.github.opletter.espul.screens.SettingsScreen
 import io.github.opletter.espul.state.EspulViewModel

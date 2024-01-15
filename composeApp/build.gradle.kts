@@ -37,7 +37,9 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.material3)
-            implementation(compose.materialIconsExtended)
+            // not included as it causes js build to be very slow
+            // icons are instead manually copied: see components/icons
+//            implementation(compose.materialIconsExtended)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
