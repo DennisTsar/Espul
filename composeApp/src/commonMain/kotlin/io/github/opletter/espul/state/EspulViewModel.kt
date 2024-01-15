@@ -102,12 +102,15 @@ class EspulViewModel(private val coroutineScope: CoroutineScope) {
     init {
         coroutineScope.launch {
             userEvents = followedUsers.associate { user ->
-                println("getting events for ${user.username}")
                 user.username to LoadedUserEvents(
                     username = user.username,
                     events = repository.getUserEvents(user.username),
                     upToPage = 1,
                 )
+            }
+            val state = navState
+            if (state is NavState.UserEvents) {
+                navState = state.copy(events = userEvents[state.user.username]?.events.orEmpty())
             }
         }
     }
