@@ -5,7 +5,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.russhwolf.settings.Settings
 
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
@@ -94,7 +94,7 @@ internal fun AppTheme(
     content: @Composable () -> Unit,
 ) {
     val systemIsDark = isSystemInDarkTheme()
-    val isDarkState = remember { mutableStateOf(systemIsDark) }
+    val isDarkState = remember { mutableStateOf(Settings().getBooleanOrNull("isDark") ?: systemIsDark) }
     CompositionLocalProvider(
         LocalThemeIsDark provides isDarkState
     ) {
