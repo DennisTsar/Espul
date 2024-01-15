@@ -56,7 +56,7 @@ fun ImageCard(
             )
             Text(
                 text = label,
-                modifier = Modifier.padding(6.dp),
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                 color = Color.White,
                 fontSize = MaterialTheme.typography.titleMedium.fontSize,
             )
