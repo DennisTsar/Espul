@@ -19,7 +19,7 @@ import kotlinx.serialization.json.Json
 
 class EspulViewModel(private val coroutineScope: CoroutineScope) {
     private val settings = Settings()
-    private val repository = GithubRepository(null)
+    private var repository = GithubRepository(settings.getProp("apiKey"))
 
     var navState: NavState by mutableStateOf(NavState.AllUsers)
         private set
@@ -93,9 +93,15 @@ class EspulViewModel(private val coroutineScope: CoroutineScope) {
         settings.setProp("followedUsers", followedUsers)
     }
 
+    fun setApiKey(apiKey: String) {
+        repository = GithubRepository(apiKey)
+        settings.setProp("apiKey", apiKey)
+    }
+
     fun clearData() {
         followedUsers = emptyList()
         userEvents = emptyMap()
+        repository = GithubRepository(null)
         settings.clear()
     }
 
