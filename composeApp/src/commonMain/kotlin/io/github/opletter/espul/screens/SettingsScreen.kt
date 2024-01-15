@@ -18,6 +18,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import io.github.opletter.espul.components.InputDialog
 import io.github.opletter.espul.state.EspulViewModel
+import io.github.opletter.espul.util.getClipboardText
 
 @Composable
 fun SettingsScreen(viewModel: EspulViewModel) {
@@ -113,6 +114,15 @@ fun ApiKeyDialog(onDone: (String?) -> Unit) {
             keyboardActions = KeyboardActions(onDone = { onDone(input) }),
             singleLine = true,
         )
+        var clipboardText by remember { mutableStateOf<String?>(null) }
+        LaunchedEffect(Unit) {
+            clipboardText = getClipboardText()
+        }
+        clipboardText?.let {
+            Button(onClick = { onDone(it) }) {
+                Text("Use clipboard value")
+            }
+        }
     }
 }
 
