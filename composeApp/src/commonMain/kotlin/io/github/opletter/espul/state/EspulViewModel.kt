@@ -174,6 +174,7 @@ class EspulViewModel(private val coroutineScope: CoroutineScope) {
             .let { Json.decodeFromString<List<FollowedUser>>(it) }
         if (data != followedUsers) {
             followedUsers = data
+            settings.setProp("followedUsers", followedUsers)
             fetchUserEvents()
         }
     }
