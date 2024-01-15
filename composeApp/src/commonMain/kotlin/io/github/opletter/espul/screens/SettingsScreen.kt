@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
@@ -24,20 +25,23 @@ fun SettingsScreen(viewModel: EspulViewModel) {
         val focusManager = LocalFocusManager.current
         var clearDataDialogOpen by remember { mutableStateOf(false) }
         var githubApiKeyDialogOpen by remember { mutableStateOf(false) }
+        var githubRepoDialogOpen by remember { mutableStateOf(false) }
         ListItem(
-            headlineContent = { Text("Followed Users") },
-            supportingContent = { Text("Manage followed users") },
-            modifier = Modifier.clickable { },
-        )
-        Divider()
-        ListItem(
-            headlineContent = { Text("Github API Key") },
+            headlineContent = { Text("Set Github API Key") },
             modifier = Modifier.clickable {
                 githubApiKeyDialogOpen = true
-                // if we don't clear focus, the enter key from the alert textfield will trigger this button again
-                // possibly related: https://github.com/JetBrains/compose-multiplatform/issues/1925
                 focusManager.clearFocus()
             },
+        )
+        Divider()
+        val isSyncEnabled = viewModel.isAuthenticated
+        ListItem(
+            headlineContent = { Text("Set Data Sync Github Repo") },
+            supportingContent = { Text("The repository used to sync your activity between devices.") },
+            modifier = Modifier.clickable(isSyncEnabled) {
+                githubRepoDialogOpen = true
+                focusManager.clearFocus()
+            }.then(Modifier.alpha(if (isSyncEnabled) 1f else 0.5f)),
         )
         Divider()
         ListItem(
@@ -77,6 +81,14 @@ fun SettingsScreen(viewModel: EspulViewModel) {
                 githubApiKeyDialogOpen = false
             })
         }
+        if (githubRepoDialogOpen) {
+            RepoDialog(onDone = { repo ->
+                if (!repo.isNullOrBlank()) {
+                    viewModel.setSyncRepo(repo)
+                }
+                githubRepoDialogOpen = false
+            })
+        }
     }
 }
 
@@ -98,6 +110,30 @@ fun ApiKeyDialog(onDone: (String?) -> Unit) {
             modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = { onDone(input) }),
+            singleLine = true,
+        )
+    }
+}
+
+@Composable
+fun RepoDialog(onDone: (String?) -> Unit) {
+    InputDialog(onDone = onDone) { focusRequester ->
+        var input by remember { mutableStateOf("") }
+        Text("Github Repo", style = MaterialTheme.typography.titleLarge)
+        Text(
+            buildString {
+                append("Enter the repository in the format \"<owner>/<repo>\". ")
+                append("Note that the API key must have the Read/Write Repository Contents permission for this repo.")
+                append("Warning: Remote data will overwrite local data if there is a conflict.")
+            }
+        )
+        OutlinedTextField(
+            value = input,
+            onValueChange = { input = it },
+            label = { Text("Owner/Repo") },
+            modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = { onDone(input) }),
             singleLine = true,
         )

@@ -5,8 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.russhwolf.settings.Settings
 import io.github.opletter.espul.EspulScreen
+import io.github.opletter.espul.gh.data.Author
 import io.github.opletter.espul.gh.data.GithubEvent
 import io.github.opletter.espul.gh.remote.GithubRepository
+import io.ktor.util.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -34,6 +36,14 @@ class EspulViewModel(private val coroutineScope: CoroutineScope) {
     private val _uiEvents = MutableSharedFlow<Event>()
     val uiEvents: SharedFlow<Event> = _uiEvents
 
+    val isAuthenticated: Boolean
+        get() = repository.isAuthenticated
+
+    fun hasUnreadEvents(user: FollowedUser): Boolean {
+        val mostRecentEvent = userEvents[user.username]?.events?.firstOrNull() ?: return false
+        return mostRecentEvent.createdAt > user.lastViewed
+    }
+
     fun navItemClicked(screen: EspulScreen) {
         prevNavState = navState
         navState = when (screen) {
@@ -57,7 +67,6 @@ class EspulViewModel(private val coroutineScope: CoroutineScope) {
                 return@launch
             }
             val user = repository.getUser(username)
-            println("user: $user")
             if (user == null) {
                 _uiEvents.emit(Event.AddUserResult.UserNotFound)
                 return@launch
@@ -71,6 +80,7 @@ class EspulViewModel(private val coroutineScope: CoroutineScope) {
             _uiEvents.emit(Event.AddUserResult.Success(followedUser))
             followedUsers = followedUsers + followedUser
             settings.setProp("followedUsers", followedUsers)
+            pushSyncData()
             userEvents = userEvents + (followedUser.username to LoadedUserEvents(
                 username = followedUser.username,
                 events = repository.getUserEvents(followedUser.username),
@@ -83,6 +93,8 @@ class EspulViewModel(private val coroutineScope: CoroutineScope) {
         prevNavState = navState
         navState = NavState.UserEvents(user, userEvents[user.username]?.events.orEmpty())
 
+        if (!hasUnreadEvents(user)) return
+
         followedUsers = followedUsers.map {
             if (it.username == user.username) {
                 it.copy(lastViewed = Clock.System.now())
@@ -91,11 +103,24 @@ class EspulViewModel(private val coroutineScope: CoroutineScope) {
             }
         }
         settings.setProp("followedUsers", followedUsers)
+        pushSyncData()
     }
 
     fun setApiKey(apiKey: String) {
         repository = GithubRepository(apiKey)
         settings.setProp("apiKey", apiKey)
+    }
+
+    fun setSyncRepo(repo: String) {
+        val owner = repo.substringBefore("/", "")
+        val name = repo.substringAfter("/", "")
+        if (owner.isBlank() || name.isBlank()) {
+            return
+        }
+        settings.setProp("syncRepo", repo)
+        coroutineScope.launch {
+            fetchSyncData()
+        }
     }
 
     fun clearData() {
@@ -107,17 +132,53 @@ class EspulViewModel(private val coroutineScope: CoroutineScope) {
 
     init {
         coroutineScope.launch {
-            userEvents = followedUsers.associate { user ->
-                user.username to LoadedUserEvents(
-                    username = user.username,
-                    events = repository.getUserEvents(user.username),
-                    upToPage = 1,
-                )
-            }
-            val state = navState
-            if (state is NavState.UserEvents) {
-                navState = state.copy(events = userEvents[state.user.username]?.events.orEmpty())
-            }
+            launch { fetchUserEvents() }
+            launch { fetchSyncData() }
+        }
+    }
+
+    private suspend fun fetchUserEvents() {
+        userEvents = followedUsers.associate { user ->
+            user.username to LoadedUserEvents(
+                username = user.username,
+                events = repository.getUserEvents(user.username),
+                upToPage = 1,
+            )
+        }
+        val state = navState
+        if (state is NavState.UserEvents) {
+            navState = state.copy(events = userEvents[state.user.username]?.events.orEmpty())
+        }
+    }
+
+    private suspend fun fetchSyncData() {
+        if (!repository.isAuthenticated) return
+        val repo = settings.getProp<String>("syncRepo") ?: return
+        val owner = repo.substringBefore("/")
+        val name = repo.substringAfter("/")
+        val response = repository.getRepoFileContent(owner, name, "espul.json") ?: return
+        val data = response.content.lines().joinToString("").decodeBase64String()
+            .let { Json.decodeFromString<List<FollowedUser>>(it) }
+        if (data != followedUsers) {
+            followedUsers = data
+            fetchUserEvents()
+        }
+    }
+
+    private fun pushSyncData() {
+        if (!repository.isAuthenticated) return
+        val repo = settings.getProp<String>("syncRepo") ?: return
+        val owner = repo.substringBefore("/")
+        val name = repo.substringAfter("/")
+        coroutineScope.launch {
+            repository.overwriteFileContent(
+                owner = owner,
+                repo = name,
+                path = "espul.json",
+                message = "Automatic Update from Espul",
+                content = Json.encodeToString(followedUsers),
+                committer = Author("espul[bot]@users.noreply.github.com", "Espul[bot]"),
+            )
         }
     }
 }

@@ -25,7 +25,6 @@ import io.github.opletter.espul.components.InputDialog
 import io.github.opletter.espul.state.EspulViewModel
 import io.github.opletter.espul.state.Event
 import io.github.opletter.espul.state.NavState
-import kotlinx.datetime.Instant
 
 @Composable
 fun FeedScreen(viewModel: EspulViewModel) {
@@ -82,9 +81,7 @@ fun AllUsersFeed(viewModel: EspulViewModel) {
                         label = user.displayName,
                         onClick = { viewModel.viewUserEvents(user) },
                     )
-                    val compareTime = viewModel.userEvents[user.username]?.events?.firstOrNull()?.createdAt
-                        ?: Instant.DISTANT_PAST
-                    if (user.lastViewed < compareTime) {
+                    if (viewModel.hasUnreadEvents(user)) {
                         Badge(
                             Modifier
                                 .size(16.dp)
