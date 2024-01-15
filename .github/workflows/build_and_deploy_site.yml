@@ -1,0 +1,51 @@
+# This file was generated using Kotlin DSL (.github/workflows/build_site.main.kts).
+# If you want to modify the workflow, please change the Kotlin file and regenerate this YAML file.
+# Generated with https://github.com/typesafegithub/github-workflows-kt
+
+name: 'Deploy Site to Pages'
+on:
+  workflow_dispatch: { }
+  push:
+    branches:
+      - 'master'
+permissions:
+  contents: 'read'
+  pages: 'write'
+  id-token: 'write'
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+jobs:
+  export:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - id: 'step-0'
+        name: 'Checkout'
+        uses: 'actions/checkout@v4'
+      - id: 'step-1'
+        name: 'Set up Java'
+        uses: 'actions/setup-java@v4'
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - id: 'step-2'
+        name: 'Setup Gradle'
+        uses: 'gradle/gradle-build-action@v2'
+      - id: 'step-3'
+        name: 'Build site'
+        run: './gradlew composeApp:jsBrowserProductionWebpack'
+      - id: 'step-4'
+        name: 'Upload artifact'
+        uses: 'actions/upload-pages-artifact@v2'
+        with:
+          path: 'composeApp/build/dist/js/productionExecutable'
+  deploy:
+    runs-on: 'ubuntu-latest'
+    needs:
+      - 'export'
+    environment:
+      name: 'github-pages'
+      url: '${{ steps.deployment.outputs.page_url }}'
+    steps:
+      - id: 'deployment'
+        uses: 'actions/deploy-pages@v2'
