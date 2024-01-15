@@ -1,11 +1,10 @@
 [versions]
 kotlin = "1.9.21"
-compose = "1.6.0-alpha01"
+compose = "1.6.0-dev1369"
 
 agp = "8.2.1"
 androidx-appcompat = "1.6.1"
 androidx-activityCompose = "1.8.2"
-ballast = "4.0.0"
 coil = "3.0.0-alpha02"
 compose-uitooling = "1.5.4"
 human-readable = "1.2.0"
@@ -14,14 +13,12 @@ kotlinx-coroutines = "1.8.0-RC2"
 kotlinx-datetime = "0.5.0"
 kotlinx-serialization = "1.6.2"
 markdown = "0.6.1"
+multiplatform-settings = "1.1.1"
 window-size = "0.5.0-alpha03"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
-
-ballast-core = { module = "io.github.copper-leaf:ballast-core", version.ref = "ballast" }
-ballast-navigation = { module = "io.github.copper-leaf:ballast-navigation", version.ref = "ballast" }
 
 coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
@@ -49,6 +46,8 @@ markdown = { module = "org.jetbrains:markdown", version.ref = "markdown" }
 # TODO: Replace with official version when it supports multiplatform
 # https://github.com/JetBrains/compose-multiplatform/issues/2404
 material3-window-size = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "window-size" }
+
+multiplatform-settings = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatform-settings" }
 
 time-formatter = { module = "nl.jacobras:human-readable", version.ref = "human-readable" }
 

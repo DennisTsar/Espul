@@ -19,14 +19,17 @@ kotlin {
     jvm()
 
     js {
-        browser()
+        browser {
+            commonWebpackConfig {
+                sourceMaps = false
+            }
+        }
         binaries.executable()
     }
 
     sourceSets {
         all {
             languageSettings {
-                optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
                 optIn("androidx.compose.material3.ExperimentalMaterial3Api")
             }
         }
@@ -34,16 +37,14 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.material3)
-            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-            implementation(compose.components.resources)
+            implementation(compose.materialIconsExtended)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
-            implementation(libs.ballast.core)
-            implementation(libs.ballast.navigation)
-            implementation(libs.bundles.coil)
             implementation(libs.kotlinx.datetime)
+            implementation(libs.bundles.coil)
             implementation(libs.time.formatter)
             implementation(libs.material3.window.size)
+            implementation(libs.multiplatform.settings)
             implementation(projects.markdownRenderer)
             implementation(projects.githubApi)
         }
