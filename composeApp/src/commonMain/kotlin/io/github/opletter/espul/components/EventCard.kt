@@ -35,10 +35,10 @@ private data class EventCardData(
 )
 
 @Composable
-fun EventCard(event: GithubEvent<*>) {
+fun EventCard(event: GithubEvent<*>, modifier: Modifier = Modifier) {
     val data = event.toEventCardData()
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(10.dp),
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.secondaryContainer),

@@ -35,9 +35,12 @@ fun FeedScreen(viewModel: EspulViewModel) {
     when (val state = viewModel.navState) {
         is NavState.AllUsers -> AllUsersFeed(viewModel)
         is NavState.UserEvents -> {
-            LazyColumn(contentPadding = PaddingValues(6.dp)) {
+            LazyColumn(
+                contentPadding = PaddingValues(6.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
                 items(state.events) {
-                    EventCard(it)
+                    EventCard(it, Modifier.widthIn(max = 800.dp))
                 }
             }
         }
@@ -67,10 +70,10 @@ fun AllUsersFeed(viewModel: EspulViewModel) {
         Modifier
             .fillMaxSize()
             .verticalScroll(scrollState),
-        contentAlignment = if (viewModel.followedUsers.isNotEmpty()) Alignment.TopCenter else Alignment.TopStart,
+        contentAlignment = Alignment.TopCenter,
     ) {
         FlowRow(
-            Modifier.padding(12.dp),
+            Modifier.padding(12.dp).widthIn(max = 800.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {

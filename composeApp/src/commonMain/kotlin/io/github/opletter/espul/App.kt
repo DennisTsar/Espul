@@ -8,6 +8,7 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -154,7 +155,11 @@ internal fun AppContent() {
                 CompositionLocalProvider(
                     LocalSnackbarHostState provides snackbarHostState,
                 ) {
-                    Box(Modifier.widthIn(max = 800.dp)) {
+                    val centerAlign = viewModel.navState !is NavState.Settings
+                    Box(
+                        Modifier.fillMaxSize(),
+                        contentAlignment = if (centerAlign) Alignment.TopCenter else Alignment.TopStart,
+                    ) {
                         viewModel.navState.screenData.screen.content(viewModel)
                     }
                 }
