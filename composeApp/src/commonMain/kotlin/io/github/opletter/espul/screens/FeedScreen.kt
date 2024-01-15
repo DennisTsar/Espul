@@ -38,6 +38,11 @@ fun FeedScreen(viewModel: EspulViewModel) {
                 items(state.events) {
                     EventCard(it, Modifier.widthIn(max = 800.dp))
                 }
+                item {
+                    Button(onClick = { viewModel.loadMoreEvents(state.user) }) {
+                        Text("Load More")
+                    }
+                }
             }
         }
 

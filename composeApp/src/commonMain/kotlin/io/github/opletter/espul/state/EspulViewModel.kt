@@ -29,8 +29,7 @@ class EspulViewModel(private val coroutineScope: CoroutineScope) {
     var followedUsers by mutableStateOf(settings.getProp<List<FollowedUser>>("followedUsers").orEmpty())
         private set
 
-    var userEvents by mutableStateOf<Map<String, LoadedUserEvents>>(emptyMap())
-        private set
+    private var userEvents by mutableStateOf<Map<String, LoadedUserEvents>>(emptyMap())
     private var prevNavState: NavState? = null
 
     private val _uiEvents = MutableSharedFlow<Event>()
@@ -104,6 +103,20 @@ class EspulViewModel(private val coroutineScope: CoroutineScope) {
         }
         settings.setProp("followedUsers", followedUsers)
         pushSyncData()
+    }
+
+    fun loadMoreEvents(user: FollowedUser) {
+        coroutineScope.launch {
+            val loadedEvents = userEvents[user.username] ?: return@launch
+            val newEvents = repository.getUserEvents(user.username, loadedEvents.upToPage + 1)
+            userEvents = userEvents + (user.username to loadedEvents.copy(
+                events = loadedEvents.events + newEvents,
+                upToPage = loadedEvents.upToPage + 1,
+            ))
+            val state = navState
+            check(state is NavState.UserEvents)
+            navState = state.copy(events = userEvents[user.username]?.events.orEmpty())
+        }
     }
 
     fun setApiKey(apiKey: String) {
