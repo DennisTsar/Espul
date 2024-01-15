@@ -17,7 +17,7 @@ import com.mikepenz.markdown.compose.Markdown
 import com.mikepenz.markdown.model.markdownPadding
 import com.mikepenz.markdown.model.markdownTypography
 import io.github.opletter.espul.gh.data.*
-import io.github.opletter.espul.openUrl
+import io.github.opletter.espul.util.openUrl
 import kotlinx.datetime.Instant
 import nl.jacobras.humanreadable.HumanReadable
 

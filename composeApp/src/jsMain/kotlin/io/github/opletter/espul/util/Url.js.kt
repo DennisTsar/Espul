@@ -1,4 +1,4 @@
-package io.github.opletter.espul
+package io.github.opletter.espul.util
 
 import kotlinx.browser.window
 

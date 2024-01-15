@@ -1,4 +1,4 @@
-package io.github.opletter.espul
+package io.github.opletter.espul.util
 
 import java.awt.Desktop
 import java.net.URI
