@@ -23,6 +23,18 @@ class EspulViewModel(private val coroutineScope: CoroutineScope) {
     private val settings = Settings()
     private var repository = GithubRepository(settings.getProp("apiKey"))
 
+    init {
+        // SET HARD-CODED API KEY & SYNC REPO HERE
+        val key: String? = null // ex. "github_pat_...."
+        val repo: String? = null // ex. "dennistsar/espul-public-data"; key must have read/write access to this repo
+        if (key != null) {
+            setApiKey(key)
+            if (repo != null) {
+                setSyncRepo(repo)
+            }
+        }
+    }
+
     var navState: NavState by mutableStateOf(NavState.AllUsers)
         private set
 
