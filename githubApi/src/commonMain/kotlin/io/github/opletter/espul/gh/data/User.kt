@@ -23,7 +23,7 @@ data class User(
     val htmlUrl: String,
     val id: Int,
     val login: String,
-//    val name: String? = null,
+    val name: String? = null, // not available in events
     @SerialName("node_id")
     val nodeId: String,
     @SerialName("organizations_url")

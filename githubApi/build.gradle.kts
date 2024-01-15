@@ -5,20 +5,22 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
 }
 
-@OptIn(ExperimentalWasmDsl::class)
+//@OptIn(ExperimentalWasmDsl::class)
 kotlin {
     jvm()
     js {
         browser()
         nodejs()
     }
-    wasmJs()
-    wasmWasi()
+//    wasmJs()
+//    wasmWasi()
 
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.serialization.json)
-            api(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.bundles.ktor.main)
+            implementation(libs.kotlinx.coroutines.core)
         }
     }
 }
