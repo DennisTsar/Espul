@@ -4,9 +4,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -83,11 +80,11 @@ private val AppShapes = Shapes(
 )
 
 private val AppTypography = Typography(
-    bodyMedium = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 16.sp
-    )
+//    bodyMedium = TextStyle(
+//        fontFamily = FontFamily.Default,
+//        fontWeight = FontWeight.Medium,
+//        fontSize = 16.sp
+//    )
 )
 
 internal val LocalThemeIsDark = compositionLocalOf { mutableStateOf(true) }
