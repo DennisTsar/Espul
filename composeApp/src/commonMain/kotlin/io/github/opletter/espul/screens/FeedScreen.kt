@@ -1,6 +1,5 @@
 package io.github.opletter.espul.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,16 +14,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import io.github.opletter.espul.LocalSnackbarHostState
 import io.github.opletter.espul.components.EventCard
 import io.github.opletter.espul.components.ImageCard
+import io.github.opletter.espul.components.InputDialog
 import io.github.opletter.espul.state.EspulViewModel
 import io.github.opletter.espul.state.Event
 import io.github.opletter.espul.state.NavState
@@ -124,8 +121,8 @@ fun AllUsersFeed(viewModel: EspulViewModel) {
         }
     }
     if (dialogOpen) {
-        InputDialog(onDone = { username ->
-            if (username != null) {
+        UserInputDialog(onDone = { username ->
+            if (!username.isNullOrBlank()) {
                 viewModel.addFollowedUser(username)
             }
             dialogOpen = false
@@ -134,29 +131,18 @@ fun AllUsersFeed(viewModel: EspulViewModel) {
 }
 
 @Composable
-fun InputDialog(onDone: (String?) -> Unit) {
-    Dialog(onDismissRequest = { onDone(null) }) {
-        Column(
-            Modifier
-                .clip(MaterialTheme.shapes.medium)
-                .background(MaterialTheme.colorScheme.surface)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            var input by remember { mutableStateOf("") }
-            val focusRequester = remember { FocusRequester() }.apply {
-                LaunchedEffect(Unit) { requestFocus() }
-            }
-            Text("Follow User", style = MaterialTheme.typography.titleLarge)
-            OutlinedTextField(
-                value = input,
-                onValueChange = { input = it },
-                label = { Text("Username") },
-                modifier = Modifier.focusRequester(focusRequester),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = { onDone(input) }),
-                singleLine = true,
-            )
-        }
+fun UserInputDialog(onDone: (String?) -> Unit) {
+    InputDialog(onDone = onDone) { focusRequester ->
+        var input by remember { mutableStateOf("") }
+        Text("Follow User", style = MaterialTheme.typography.titleLarge)
+        OutlinedTextField(
+            value = input,
+            onValueChange = { input = it },
+            label = { Text("Username") },
+            modifier = Modifier.focusRequester(focusRequester),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = { onDone(input) }),
+            singleLine = true,
+        )
     }
 }

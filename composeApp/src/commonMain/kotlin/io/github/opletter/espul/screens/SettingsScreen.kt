@@ -1,22 +1,21 @@
 package io.github.opletter.espul.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
+import io.github.opletter.espul.components.InputDialog
 import io.github.opletter.espul.state.EspulViewModel
 
 @Composable
@@ -32,11 +31,6 @@ fun SettingsScreen(viewModel: EspulViewModel) {
         )
         Divider()
         ListItem(
-            headlineContent = { Text("Clear Data") },
-            modifier = Modifier.clickable { clearDataDialogOpen = true },
-        )
-        Divider()
-        ListItem(
             headlineContent = { Text("Github API Key") },
             modifier = Modifier.clickable {
                 githubApiKeyDialogOpen = true
@@ -44,6 +38,11 @@ fun SettingsScreen(viewModel: EspulViewModel) {
                 // possibly related: https://github.com/JetBrains/compose-multiplatform/issues/1925
                 focusManager.clearFocus()
             },
+        )
+        Divider()
+        ListItem(
+            headlineContent = { Text("Clear Data") },
+            modifier = Modifier.clickable { clearDataDialogOpen = true },
         )
 
         if (clearDataDialogOpen) {
@@ -72,7 +71,7 @@ fun SettingsScreen(viewModel: EspulViewModel) {
         }
         if (githubApiKeyDialogOpen) {
             ApiKeyDialog(onDone = { apiKey ->
-                if (apiKey != null) {
+                if (!apiKey.isNullOrBlank()) {
                     viewModel.setApiKey(apiKey)
                 }
                 githubApiKeyDialogOpen = false
@@ -83,35 +82,24 @@ fun SettingsScreen(viewModel: EspulViewModel) {
 
 @Composable
 fun ApiKeyDialog(onDone: (String?) -> Unit) {
-    Dialog(onDismissRequest = { onDone(null) }) {
-        Column(
-            Modifier
-                .clip(MaterialTheme.shapes.medium)
-                .background(MaterialTheme.colorScheme.surface)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            var input by remember { mutableStateOf("") }
-            val focusRequester = remember { FocusRequester() }.apply {
-                LaunchedEffect(Unit) { requestFocus() }
+    InputDialog(onDone = onDone) { focusRequester ->
+        var input by remember { mutableStateOf("") }
+        Text("Github API Key", style = MaterialTheme.typography.titleLarge)
+        Text(
+            buildString {
+                append("No extra permissions needed for increased rate limit. ")
+                append("Must have the relevant Read/Write Repository Contents permission to enable data syncing.")
             }
-            Text("Github API Key", style = MaterialTheme.typography.titleLarge)
-            Text(
-                buildString {
-                    append("No extra permissions needed for increased rate limit. ")
-                    append("Must have the relevant Read/Write Repository Contents permission to enable data syncing.")
-                }
-            )
-            OutlinedTextField(
-                value = input,
-                onValueChange = { input = it },
-                label = { Text("API Key") },
-                modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = { onDone(input) }),
-                singleLine = true,
-            )
-        }
+        )
+        OutlinedTextField(
+            value = input,
+            onValueChange = { input = it },
+            label = { Text("API Key") },
+            modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = { onDone(input) }),
+            singleLine = true,
+        )
     }
 }
