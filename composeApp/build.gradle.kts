@@ -100,9 +100,9 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.4"
-    }
+//    composeOptions {
+//        kotlinCompilerExtensionVersion = "1.5.4"
+//    }
 }
 
 compose.desktop {

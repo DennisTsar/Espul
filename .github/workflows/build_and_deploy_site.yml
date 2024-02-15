@@ -30,13 +30,13 @@ jobs:
           distribution: 'temurin'
       - id: 'step-2'
         name: 'Setup Gradle'
-        uses: 'gradle/gradle-build-action@v2'
+        uses: 'gradle/gradle-build-action@v3'
       - id: 'step-3'
         name: 'Build site'
         run: './gradlew composeApp:jsBrowserProductionWebpack'
       - id: 'step-4'
         name: 'Upload artifact'
-        uses: 'actions/upload-pages-artifact@v2'
+        uses: 'actions/upload-pages-artifact@v3'
         with:
           path: 'composeApp/build/dist/js/productionExecutable'
   deploy:
@@ -48,4 +48,4 @@ jobs:
       url: '${{ steps.deployment.outputs.page_url }}'
     steps:
       - id: 'deployment'
-        uses: 'actions/deploy-pages@v2'
+        uses: 'actions/deploy-pages@v4'

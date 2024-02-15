@@ -34,7 +34,7 @@ fun SettingsScreen(viewModel: EspulViewModel) {
                 focusManager.clearFocus()
             },
         )
-        Divider()
+        HorizontalDivider()
         val isSyncEnabled = viewModel.isAuthenticated
         ListItem(
             headlineContent = { Text("Set Data Sync Github Repo") },
@@ -44,7 +44,7 @@ fun SettingsScreen(viewModel: EspulViewModel) {
                 focusManager.clearFocus()
             }.then(Modifier.alpha(if (isSyncEnabled) 1f else 0.5f)),
         )
-        Divider()
+        HorizontalDivider()
         ListItem(
             headlineContent = { Text("Clear Data") },
             modifier = Modifier.clickable { clearDataDialogOpen = true },

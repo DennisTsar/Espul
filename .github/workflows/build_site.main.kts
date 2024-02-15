@@ -1,9 +1,9 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.9.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.11.0")
 
 import io.github.typesafegithub.workflows.actions.actions.CheckoutV4
 import io.github.typesafegithub.workflows.actions.actions.SetupJavaV4
-import io.github.typesafegithub.workflows.actions.gradle.GradleBuildActionV2
+import io.github.typesafegithub.workflows.actions.gradle.GradleBuildActionV3
 import io.github.typesafegithub.workflows.domain.Concurrency
 import io.github.typesafegithub.workflows.domain.Mode
 import io.github.typesafegithub.workflows.domain.Permission
@@ -41,7 +41,7 @@ workflow(
             action = SetupJavaV4(javaVersion = "17", distribution = SetupJavaV4.Distribution.Temurin)
         )
 
-        uses(name = "Setup Gradle", action = GradleBuildActionV2())
+        uses(name = "Setup Gradle", action = GradleBuildActionV3())
 
         run(
             name = "Build site",
@@ -50,7 +50,7 @@ workflow(
 
         uses(
             name = "Upload artifact",
-            action = UploadPagesArtifactV2(path = "composeApp/build/dist/js/productionExecutable"),
+            action = UploadPagesArtifactV3(path = "composeApp/build/dist/js/productionExecutable"),
         )
     }
     val deploymentId = "deployment"
@@ -66,21 +66,21 @@ workflow(
         )
     ) {
         uses(
-            action = DeployPagesV2(),
+            action = DeployPagesV4(),
             _customArguments = mapOf("id" to deploymentId)
         )
     }
 }.writeToFile(addConsistencyCheck = false)
 
 
-class UploadPagesArtifactV2(private val path: String) :
-    RegularAction<Action.Outputs>("actions", "upload-pages-artifact", "v2") {
+class UploadPagesArtifactV3(private val path: String) :
+    RegularAction<Action.Outputs>("actions", "upload-pages-artifact", "v3") {
     override fun toYamlArguments() = linkedMapOf("path" to path)
 
     override fun buildOutputObject(stepId: String) = Outputs(stepId)
 }
 
-class DeployPagesV2 : RegularAction<Action.Outputs>("actions", "deploy-pages", "v2") {
+class DeployPagesV4 : RegularAction<Action.Outputs>("actions", "deploy-pages", "v4") {
     override fun toYamlArguments() = linkedMapOf<String, String>()
 
     override fun buildOutputObject(stepId: String) = Outputs(stepId)
