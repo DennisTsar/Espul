@@ -23,7 +23,7 @@ data class Release(
     val draft: Boolean,
     @SerialName("html_url")
     val htmlUrl: String,
-    val id: Int,
+    val id: Long,
     @SerialName("mentions_count")
     val mentionsCount: Int? = null,
     val name: String?,
@@ -77,7 +77,7 @@ data class Asset(
     val createdAt: Instant,
     @SerialName("download_count")
     val downloadCount: Int,
-    val id: Int,
+    val id: Long,
     val label: String?,
     val name: String,
     @SerialName("node_id")

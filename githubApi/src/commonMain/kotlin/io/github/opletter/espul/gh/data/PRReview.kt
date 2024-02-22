@@ -19,7 +19,7 @@ data class PRReview(
     val commitId: String,
     @SerialName("html_url")
     val htmlUrl: String,
-    val id: Int,
+    val id: Long,
     @SerialName("_links")
     val links: PRReviewLinks,
     @SerialName("node_id")

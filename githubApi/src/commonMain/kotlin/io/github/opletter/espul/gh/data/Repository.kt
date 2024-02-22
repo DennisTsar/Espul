@@ -97,7 +97,7 @@ data class Repository(
     val hooksUrl: String,
     @SerialName("html_url")
     val htmlUrl: String,
-    val id: Int,
+    val id: Long,
     // optional in docs
     @SerialName("is_template")
     val isTemplate: Boolean,

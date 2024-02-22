@@ -11,7 +11,7 @@ data class Actor(
     val displayLogin: String,
     @SerialName("gravatar_id")
     val gravatarId: String,
-    val id: Int,
+    val id: Long,
     val login: String,
     val url: String,
 )

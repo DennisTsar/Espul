@@ -9,7 +9,7 @@ data class Team(
     val description: String?,
     @SerialName("html_url")
     val htmlUrl: String,
-    val id: Int,
+    val id: Long,
     @SerialName("members_url")
     val membersUrl: String,
     val name: String,
@@ -34,7 +34,7 @@ data class Team(
 //    val description: String?,
 //    @SerialName("html_url")
 //    val htmlUrl: String,
-//    val id: Int,
+//    val id: Long,
 //    @SerialName("ldap_dn")
 //    val ldapDn: String? = null,
 //    @SerialName("members_url")

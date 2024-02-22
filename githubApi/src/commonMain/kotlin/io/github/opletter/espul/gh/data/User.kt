@@ -21,7 +21,7 @@ data class User(
     val gravatarId: String?,
     @SerialName("html_url")
     val htmlUrl: String,
-    val id: Int,
+    val id: Long,
     val login: String,
     val name: String? = null, // not available in events
     @SerialName("node_id")

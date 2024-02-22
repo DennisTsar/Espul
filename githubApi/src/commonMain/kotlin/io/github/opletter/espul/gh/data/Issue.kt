@@ -31,7 +31,7 @@ data class Issue(
     val eventsUrl: String,
     @SerialName("html_url")
     val htmlUrl: String,
-    val id: Int,
+    val id: Long,
     val labels: List<Label>,
     @SerialName("labels_url")
     val labelsUrl: String,

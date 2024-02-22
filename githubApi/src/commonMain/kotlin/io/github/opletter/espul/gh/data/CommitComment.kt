@@ -15,7 +15,7 @@ data class CommitComment(
     val createdAt: Instant,
     @SerialName("html_url")
     val htmlUrl: String,
-    val id: Int,
+    val id: Long,
     val line: Int?,
     @SerialName("node_id")
     val nodeId: String,

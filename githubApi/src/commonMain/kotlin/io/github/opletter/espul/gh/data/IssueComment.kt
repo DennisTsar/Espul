@@ -18,7 +18,7 @@ data class IssueComment(
     val createdAt: Instant,
     @SerialName("html_url")
     val htmlUrl: String,
-    val id: Int,
+    val id: Long,
     @SerialName("issue_url")
     val issueUrl: String,
     @SerialName("node_id")

@@ -21,7 +21,7 @@ data class PRComment(
     val diffHunk: String,
     @SerialName("html_url")
     val htmlUrl: String,
-    val id: Int,
+    val id: Long,
     @SerialName("in_reply_to_id")
     val inReplyToId: Int? = null,
     // optional in docs

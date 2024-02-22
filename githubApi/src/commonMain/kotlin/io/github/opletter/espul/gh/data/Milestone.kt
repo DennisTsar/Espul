@@ -19,7 +19,7 @@ data class Milestone(
     val dueOn: String?,
     @SerialName("html_url")
     val htmlUrl: String,
-    val id: Int,
+    val id: Long,
     @SerialName("labels_url")
     val labelsUrl: String,
     @SerialName("node_id")

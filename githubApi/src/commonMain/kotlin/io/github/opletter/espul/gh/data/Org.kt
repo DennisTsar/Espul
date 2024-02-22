@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Org(
-    val id: Int,
+    val id: Long,
     val login: String,
     @SerialName("gravatar_id")
     val gravatarId: String,

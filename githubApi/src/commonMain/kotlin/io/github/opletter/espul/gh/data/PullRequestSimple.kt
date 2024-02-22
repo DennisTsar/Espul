@@ -33,7 +33,7 @@ data class PullRequestSimple(
     val head: RepoRef,
     @SerialName("html_url")
     val htmlUrl: String,
-    val id: Int,
+    val id: Long,
     @SerialName("issue_url")
     val issueUrl: String,
     val labels: List<Label>,
