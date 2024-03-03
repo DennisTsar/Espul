@@ -45,12 +45,12 @@ workflow(
 
         run(
             name = "Build site",
-            command = "./gradlew composeApp:jsBrowserProductionWebpack",
+            command = "./gradlew composeApp:jsBrowserDistribution",
         )
 
         uses(
             name = "Upload artifact",
-            action = UploadPagesArtifactV3(path = "composeApp/build/kotlin-webpack/js/productionExecutable"),
+            action = UploadPagesArtifactV3(path = "composeApp/build/dist/js/productionExecutable"),
         )
     }
     val deploymentId = "deployment"
