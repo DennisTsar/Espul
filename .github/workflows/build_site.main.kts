@@ -50,7 +50,7 @@ workflow(
 
         uses(
             name = "Upload artifact",
-            action = UploadPagesArtifactV3(path = "composeApp/build/dist/js/productionExecutable"),
+            action = UploadPagesArtifactV3(path = "composeApp/build/kotlin-webpack/js/productionExecutable"),
         )
     }
     val deploymentId = "deployment"
