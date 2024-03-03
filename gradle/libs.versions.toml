@@ -1,20 +1,20 @@
 [versions]
 kotlin = "1.9.22"
-compose = "1.6.0-rc02"
+compose = "1.6.0"
 
 agp = "8.2.2"
 androidx-appcompat = "1.6.1"
 androidx-activityCompose = "1.8.2"
-coil = "3.0.0-alpha03" # alpha04 is broken on js
+coil = "3.0.0-alpha06"
 compose-uitooling = "1.6.2"
 human-readable = "1.7.0"
 ktor = "3.0.0-beta-1"
 kotlinx-coroutines = "1.8.0"
-kotlinx-datetime = "0.5.0"
+kotlinx-datetime = "0.6.0-RC.2"
 kotlinx-serialization = "1.6.3"
 markdown = "0.6.1"
 multiplatform-settings = "1.1.1"
-window-size = "0.5.0-rc01"
+window-size = "0.5.0"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }

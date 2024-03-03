@@ -1,9 +1,9 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.11.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.12.0")
 
 import io.github.typesafegithub.workflows.actions.actions.CheckoutV4
 import io.github.typesafegithub.workflows.actions.actions.SetupJavaV4
-import io.github.typesafegithub.workflows.actions.gradle.GradleBuildActionV3
+import io.github.typesafegithub.workflows.actions.gradle.ActionsSetupGradleV3
 import io.github.typesafegithub.workflows.domain.Concurrency
 import io.github.typesafegithub.workflows.domain.Mode
 import io.github.typesafegithub.workflows.domain.Permission
@@ -41,7 +41,7 @@ workflow(
             action = SetupJavaV4(javaVersion = "17", distribution = SetupJavaV4.Distribution.Temurin)
         )
 
-        uses(name = "Setup Gradle", action = GradleBuildActionV3())
+        uses(name = "Setup Gradle", action = ActionsSetupGradleV3())
 
         run(
             name = "Build site",
