@@ -1,5 +1,5 @@
 This is a fork of
-mikepenz's [multiplatform-markdown-renderer](https://github.com/mikepenz/multiplatform-markdown-renderer] library),
+mikepenz's [multiplatform-markdown-renderer](https://github.com/mikepenz/multiplatform-markdown-renderer) library,
 primarily to enable JS support.
 
 From multiplatform-markdown-renderer:
