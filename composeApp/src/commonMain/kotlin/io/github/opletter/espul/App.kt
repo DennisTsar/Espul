@@ -167,10 +167,12 @@ internal fun AppContent() {
         },
         bottomBar = {
             if (widthSizeClass == WindowWidthSizeClass.Compact) {
-                NavigationBar {
+                // TODO: figure out a better way to shrink the vertical padding
+                NavigationBar(Modifier.heightIn(min = 1.dp)) {
                     EspulScreen.entries.forEach { entry ->
                         val screen = entry.screen
                         NavigationBarItem(
+                            modifier = Modifier.padding(top = 6.dp).heightIn(min = 1.dp),
                             icon = { Icon(screen.icon, contentDescription = screen.title) },
                             label = { Text(screen.title) },
                             selected = viewModel.navState.screenData == entry,
