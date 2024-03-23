@@ -45,7 +45,7 @@ workflow(
 
         run(
             name = "Build site",
-            command = "./gradlew composeApp:jsBrowserDistribution",
+            command = "./gradlew composeApp:jsBrowserDistribution --no-configuration-cache",
         )
 
         uses(
