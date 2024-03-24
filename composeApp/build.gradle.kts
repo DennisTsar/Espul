@@ -9,9 +9,9 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
 }
 
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions.jvmTarget = JvmTarget.JVM_17
     }
 
@@ -24,6 +24,7 @@ kotlin {
             }
         }
         binaries.executable()
+        compilerOptions.target = "es2015"
     }
 
     sourceSets {
