@@ -24,7 +24,7 @@ kotlin {
             }
         }
         binaries.executable()
-        compilerOptions.target = "es2015"
+//        compilerOptions.target = "es2015" // not working currently in prod
     }
 
     sourceSets {
