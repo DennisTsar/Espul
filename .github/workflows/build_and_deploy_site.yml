@@ -33,7 +33,7 @@ jobs:
         uses: 'gradle/actions/setup-gradle@v3'
       - id: 'step-3'
         name: 'Build site'
-        run: './gradlew kotlinUpgradePackageLock && git diff -- kotlin-js-store/package-lock.json && ./gradlew composeApp:jsBrowserDistribution'
+        run: './gradlew composeApp:jsBrowserDistribution'
       - id: 'step-4'
         name: 'Upload artifact'
         uses: 'actions/upload-pages-artifact@v3'
