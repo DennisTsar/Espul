@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose)
+    alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlinx.serialization)
 }
@@ -37,6 +38,7 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.material3)
+            implementation(libs.compose.lifecycle)
             // not included as it causes js build to be very slow
             // icons are instead manually copied: see components/icons
 //            implementation(compose.materialIconsExtended)

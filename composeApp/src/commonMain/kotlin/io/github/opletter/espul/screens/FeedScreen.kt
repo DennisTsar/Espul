@@ -17,6 +17,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.LifecycleResumeEffect
+import androidx.lifecycle.coroutineScope
 import io.github.opletter.espul.LocalSnackbarHostState
 import io.github.opletter.espul.components.EventCard
 import io.github.opletter.espul.components.ImageCard
@@ -24,9 +26,16 @@ import io.github.opletter.espul.components.InputDialog
 import io.github.opletter.espul.state.EspulViewModel
 import io.github.opletter.espul.state.Event
 import io.github.opletter.espul.state.NavState
+import kotlinx.coroutines.launch
 
 @Composable
 fun FeedScreen(viewModel: EspulViewModel) {
+    LifecycleResumeEffect(Unit) {
+        lifecycle.coroutineScope.launch {
+            viewModel.fetchUserEvents()
+        }
+        onPauseOrDispose {}
+    }
     when (val state = viewModel.navState) {
         is NavState.AllUsers -> AllUsersFeed(viewModel)
         is NavState.UserEvents -> {

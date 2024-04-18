@@ -162,7 +162,7 @@ class EspulViewModel(private val coroutineScope: CoroutineScope) {
         }
     }
 
-    private suspend fun fetchUserEvents() {
+    suspend fun fetchUserEvents() {
         userEvents = followedUsers.associate { user ->
             user.username to LoadedUserEvents(
                 username = user.username,
