@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import io.github.opletter.espul.LocalSnackbarHostState
@@ -97,7 +96,6 @@ fun AllUsersFeed(viewModel: EspulViewModel) {
                     }
                 }
             }
-            val focusManager = LocalFocusManager.current
             if (viewModel.followedUsers.isEmpty()) {
                 FilledTonalButton(
                     onClick = {},
@@ -109,12 +107,7 @@ fun AllUsersFeed(viewModel: EspulViewModel) {
                 }
             }
             FilledTonalButton(
-                onClick = {
-                    dialogOpen = true
-                    // if we don't clear focus, the enter key from the alert textfield will trigger this button again
-                    // possibly related: https://github.com/JetBrains/compose-multiplatform/issues/1925
-                    focusManager.clearFocus()
-                },
+                onClick = { dialogOpen = true },
                 modifier = sizeModifier.alpha(1f),
                 shape = MaterialTheme.shapes.medium,
             ) {
