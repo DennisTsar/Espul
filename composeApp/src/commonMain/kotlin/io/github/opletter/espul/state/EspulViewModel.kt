@@ -164,10 +164,13 @@ class EspulViewModel(private val coroutineScope: CoroutineScope) {
 
     suspend fun fetchUserEvents() {
         userEvents = followedUsers.associate { user ->
+            val prevEvents = userEvents[user.username]?.events.orEmpty()
+            val newEvents = repository.getUserEvents(user.username)
+            val combinedEvents = newEvents + prevEvents.takeLastWhile { it.id != newEvents.lastOrNull()?.id }
             user.username to LoadedUserEvents(
                 username = user.username,
-                events = repository.getUserEvents(user.username),
-                upToPage = 1,
+                events = combinedEvents,
+                upToPage = combinedEvents.size / 30,
             )
         }
         val state = navState
