@@ -122,3 +122,20 @@ compose.desktop {
 compose.experimental {
     web.application {}
 }
+
+// Bring sanity to the IJ gradle sync window
+// Surely I should be able to do this with a gradle property
+afterEvaluate {
+    val resTaskNames = listOf(
+        "convertXmlValueResourcesFor",
+        "copyNonXmlValueResourcesFor",
+        "prepareComposeResourcesTaskFor",
+        "generateResourceAccessorsFor"
+    )
+    kotlin.sourceSets.forEach { sourceSet ->
+        resTaskNames.forEach {
+            gradle.startParameter.excludedTaskNames.add("$it${sourceSet.name}")
+        }
+    }
+    gradle.startParameter.excludedTaskNames.add("generateComposeResClass")
+}
