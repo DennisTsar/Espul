@@ -15,6 +15,7 @@ import org.intellij.markdown.MarkdownTokenTypes.Companion.TEXT
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.ast.findChildOfType
 import org.intellij.markdown.ast.getTextInNode
+import org.intellij.markdown.flavours.gfm.GFMElementTypes
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes
 
 @Composable
@@ -75,10 +76,17 @@ internal fun AnnotatedString.Builder.buildMarkdownAnnotatedString(content: Strin
                 pop()
             }
 
+            GFMElementTypes.STRIKETHROUGH -> {
+                pushStyle(SpanStyle(textDecoration = TextDecoration.LineThrough))
+                buildMarkdownAnnotatedString(content, child)
+                pop()
+            }
+
             MarkdownElementTypes.CODE_SPAN -> {
                 pushStyle(
                     SpanStyle(
                         fontFamily = FontFamily.Monospace,
+                        color = LocalMarkdownColors.current.inlineCodeText,
                         background = LocalMarkdownColors.current.inlineCodeBackground
                     )
                 )
