@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
 import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.setSingletonImageLoaderFactory
+import coil3.network.ktor.KtorNetworkFetcherFactory
 import com.russhwolf.settings.Settings
 import io.github.opletter.espul.components.icons.*
 import io.github.opletter.espul.screens.FeedScreen
@@ -33,6 +34,8 @@ import io.github.opletter.espul.util.openUrl
 internal fun App() {
     setSingletonImageLoaderFactory { context ->
         ImageLoader.Builder(context)
+            // TODO: manually adding this wasn't necessary at some point, should it happen automatically?
+            .components { add(KtorNetworkFetcherFactory()) }
             .build()
     }
     AppTheme {

@@ -4,8 +4,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.multiplatform)
-    alias(libs.plugins.compose)
     alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlinx.serialization)
 }
@@ -25,6 +25,7 @@ kotlin {
             }
         }
         binaries.executable()
+        useEsModules()
 //        compilerOptions.target = "es2015" // not working currently in prod
     }
 
@@ -102,9 +103,6 @@ android {
     buildFeatures {
         compose = true
     }
-//    composeOptions {
-//        kotlinCompilerExtensionVersion = "1.5.4"
-//    }
 }
 
 compose.desktop {
@@ -117,10 +115,6 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
-}
-
-compose.experimental {
-    web.application {}
 }
 
 // Bring sanity to the IJ gradle sync window
