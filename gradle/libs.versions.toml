@@ -1,19 +1,19 @@
 [versions]
-kotlin = "2.0.0-RC3"
-compose = "1.6.10-rc03"
+kotlin = "2.0.0"
+compose = "1.6.10"
 
 agp = "8.2.0"
 androidx-appcompat = "1.6.1"
 androidx-activityCompose = "1.9.0"
 coil = "3.0.0-alpha06"
-compose-lifecycle = "2.8.0-rc03"
+compose-lifecycle = "2.8.0"
 compose-uitooling = "1.6.7"
 human-readable = "1.8.1"
 ktor = "3.0.0-beta-1"
 kotlinx-coroutines = "1.8.1"
 kotlinx-datetime = "0.6.0"
 kotlinx-serialization = "1.7.0-RC"
-markdown = "0.7.0"
+markdown = "0.7.2"
 multiplatform-settings = "1.1.1"
 window-size = "0.5.0"
 
