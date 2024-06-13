@@ -1,20 +1,28 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.12.0")
+@file:Repository("https://repo1.maven.org/maven2/")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:2.1.0")
+@file:Repository("https://github-workflows-kt-bindings.colman.com.br/binding/")
+@file:DependsOn("actions:checkout:v4")
+@file:DependsOn("actions:setup-java:v4")
+@file:DependsOn("actions:upload-pages-artifact:v3")
+@file:DependsOn("actions:deploy-pages:v4")
+@file:DependsOn("gradle:actions__setup-gradle:v3")
 
-import io.github.typesafegithub.workflows.actions.actions.CheckoutV4
-import io.github.typesafegithub.workflows.actions.actions.SetupJavaV4
-import io.github.typesafegithub.workflows.actions.gradle.ActionsSetupGradleV3
+import io.github.typesafegithub.workflows.actions.actions.Checkout
+import io.github.typesafegithub.workflows.actions.actions.DeployPages
+import io.github.typesafegithub.workflows.actions.actions.SetupJava
+import io.github.typesafegithub.workflows.actions.actions.UploadPagesArtifact
+import io.github.typesafegithub.workflows.actions.gradle.ActionsSetupGradle
 import io.github.typesafegithub.workflows.domain.Concurrency
+import io.github.typesafegithub.workflows.domain.Environment
 import io.github.typesafegithub.workflows.domain.Mode
 import io.github.typesafegithub.workflows.domain.Permission
 import io.github.typesafegithub.workflows.domain.RunnerType.UbuntuLatest
-import io.github.typesafegithub.workflows.domain.actions.Action
-import io.github.typesafegithub.workflows.domain.actions.RegularAction
 import io.github.typesafegithub.workflows.domain.triggers.Push
 import io.github.typesafegithub.workflows.domain.triggers.WorkflowDispatch
 import io.github.typesafegithub.workflows.dsl.expressions.expr
 import io.github.typesafegithub.workflows.dsl.workflow
-import io.github.typesafegithub.workflows.yaml.writeToFile
+import io.github.typesafegithub.workflows.yaml.ConsistencyCheckJobConfig
 
 workflow(
     name = "Deploy Site to Pages",
@@ -24,24 +32,25 @@ workflow(
             branches = listOf("master"),
         )
     ),
+    sourceFile = __FILE__,
+    targetFileName = "build_and_deploy_site.yml",
+    consistencyCheckJobConfig = ConsistencyCheckJobConfig.Disabled,
+    concurrency = Concurrency(group = "pages", cancelInProgress = true),
     permissions = mapOf(
         Permission.Contents to Mode.Read,
         Permission.Pages to Mode.Write,
         Permission.IdToken to Mode.Write
     ),
-    concurrency = Concurrency(group = "pages", cancelInProgress = true),
-    sourceFile = __FILE__.toPath(),
-    targetFileName = "build_and_deploy_site.yml"
 ) {
     val exportJob = job(id = "export", runsOn = UbuntuLatest) {
-        uses(name = "Checkout", action = CheckoutV4())
+        uses(name = "Checkout", action = Checkout())
 
         uses(
             name = "Set up Java",
-            action = SetupJavaV4(javaVersion = "17", distribution = SetupJavaV4.Distribution.Temurin)
+            action = SetupJava(javaVersion = "17", distribution = SetupJava.Distribution.Temurin)
         )
 
-        uses(name = "Setup Gradle", action = ActionsSetupGradleV3())
+        uses(name = "Setup Gradle", action = ActionsSetupGradle(validateWrappers = true))
 
         run(
             name = "Build site",
@@ -50,7 +59,7 @@ workflow(
 
         uses(
             name = "Upload artifact",
-            action = UploadPagesArtifactV3(path = "composeApp/build/dist/js/productionExecutable"),
+            action = UploadPagesArtifact(path = "composeApp/build/dist/js/productionExecutable"),
         )
     }
     val deploymentId = "deployment"
@@ -58,30 +67,11 @@ workflow(
         id = "deploy",
         runsOn = UbuntuLatest,
         needs = listOf(exportJob),
-        _customArguments = mapOf(
-            "environment" to mapOf(
-                "name" to "github-pages",
-                "url" to expr { "steps.$deploymentId.outputs.page_url" }
-            )
-        )
+        environment = Environment(name = "github-pages", url = expr { "steps.$deploymentId.outputs.page_url" }),
     ) {
         uses(
-            action = DeployPagesV4(),
+            action = DeployPages(),
             _customArguments = mapOf("id" to deploymentId)
         )
     }
-}.writeToFile(addConsistencyCheck = false)
-
-
-class UploadPagesArtifactV3(private val path: String) :
-    RegularAction<Action.Outputs>("actions", "upload-pages-artifact", "v3") {
-    override fun toYamlArguments() = linkedMapOf("path" to path)
-
-    override fun buildOutputObject(stepId: String) = Outputs(stepId)
-}
-
-class DeployPagesV4 : RegularAction<Action.Outputs>("actions", "deploy-pages", "v4") {
-    override fun toYamlArguments() = linkedMapOf<String, String>()
-
-    override fun buildOutputObject(stepId: String) = Outputs(stepId)
 }
