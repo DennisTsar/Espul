@@ -46,7 +46,7 @@ data class PRComment(
     val position: Int?,
     // nullable in docs
     @SerialName("pull_request_review_id")
-    val pullRequestReviewId: Int,
+    val pullRequestReviewId: Long,
     @SerialName("pull_request_url")
     val pullRequestUrl: String,
     // optional in docs
