@@ -1,6 +1,8 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinMetadataTarget
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -124,12 +126,17 @@ afterEvaluate {
         "convertXmlValueResourcesFor",
         "copyNonXmlValueResourcesFor",
         "prepareComposeResourcesTaskFor",
-        "generateResourceAccessorsFor"
+        "generateResourceAccessorsFor",
     )
     kotlin.sourceSets.forEach { sourceSet ->
         resTaskNames.forEach {
             gradle.startParameter.excludedTaskNames.add("$it${sourceSet.name}")
         }
     }
+    kotlin.targets.filter { it !is KotlinMetadataTarget && it !is KotlinAndroidTarget }.forEach { target ->
+        gradle.startParameter.excludedTaskNames.add("generateActualResourceCollectorsFor${target.name}")
+    }
     gradle.startParameter.excludedTaskNames.add("generateComposeResClass")
+    gradle.startParameter.excludedTaskNames.add("generateExpectResourceCollectorsForCommonMain")
+    gradle.startParameter.excludedTaskNames.add("generateActualResourceCollectorsForAndroidMain")
 }

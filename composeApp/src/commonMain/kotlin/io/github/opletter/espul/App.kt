@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
 import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.setSingletonImageLoaderFactory
-import coil3.network.ktor.KtorNetworkFetcherFactory
+import coil3.network.ktor3.KtorNetworkFetcherFactory
 import com.russhwolf.settings.Settings
 import io.github.opletter.espul.components.icons.*
 import io.github.opletter.espul.screens.FeedScreen
