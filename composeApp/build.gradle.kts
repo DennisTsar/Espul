@@ -27,8 +27,9 @@ kotlin {
             }
         }
         binaries.executable()
-        useEsModules()
-//        compilerOptions.target = "es2015" // not working currently in prod
+// https://youtrack.jetbrains.com/issue/KT-70904/K-JS-ES2015-causes-large-bundle-size-increase-with-Ktor-client
+//        useEsModules()
+//        compilerOptions.target = "es2015"
     }
 
     sourceSets {

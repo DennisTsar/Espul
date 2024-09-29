@@ -1,16 +1,20 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.kotlinx.serialization)
 }
 
-//@OptIn(ExperimentalWasmDsl::class)
+@OptIn(ExperimentalWasmDsl::class)
 kotlin {
     jvm()
     js {
         browser()
         nodejs()
     }
-//    wasmJs()
+    wasmJs {
+        browser()
+    }
 //    wasmWasi()
 
     sourceSets {
