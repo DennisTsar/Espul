@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 data class RepoRef(
     val label: String,
     val ref: String,
-    val repo: Repository?,
+    val repo: RepoMin?,
     val sha: String,
     val user: User,
 )

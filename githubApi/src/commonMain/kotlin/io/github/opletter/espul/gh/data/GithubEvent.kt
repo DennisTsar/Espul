@@ -128,7 +128,7 @@ data class ForkEvent(
     override val type: String,
 ) : GithubEvent<ForkEvent.Payload> {
     @Serializable
-    data class Payload(val forkee: Repository) : GithubEventPayload
+    data class Payload(val forkee: RepoMin2) : GithubEventPayload
 }
 
 @Serializable
