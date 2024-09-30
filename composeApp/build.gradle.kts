@@ -1,5 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JsModuleKind
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinMetadataTarget
@@ -27,7 +28,12 @@ kotlin {
             }
         }
         binaries.executable()
-        compilerOptions.target = "es2015"
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            // https://youtrack.jetbrains.com/issue/KT-70904/K-JS-ES2015-causes-large-bundle-size-increase-with-Ktor-client
+            moduleKind = JsModuleKind.MODULE_UMD
+            target = "es2015"
+        }
     }
 
     sourceSets {
