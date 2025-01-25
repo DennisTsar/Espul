@@ -1,6 +1,6 @@
 #!/usr/bin/env kotlin
 @file:Repository("https://repo1.maven.org/maven2/")
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:2.1.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:3.2.0")
 @file:Repository("https://bindings.krzeminski.it/")
 @file:DependsOn("actions:checkout:v4")
 @file:DependsOn("actions:setup-java:v4")
@@ -13,6 +13,7 @@ import io.github.typesafegithub.workflows.actions.actions.DeployPages
 import io.github.typesafegithub.workflows.actions.actions.SetupJava
 import io.github.typesafegithub.workflows.actions.actions.UploadPagesArtifact
 import io.github.typesafegithub.workflows.actions.gradle.ActionsSetupGradle
+import io.github.typesafegithub.workflows.domain.ActionStep
 import io.github.typesafegithub.workflows.domain.Concurrency
 import io.github.typesafegithub.workflows.domain.Environment
 import io.github.typesafegithub.workflows.domain.Mode
@@ -62,16 +63,16 @@ workflow(
             action = UploadPagesArtifact(path = "composeApp/build/dist/js/productionExecutable"),
         )
     }
-    val deploymentId = "deployment"
+    val deploymentStep = ActionStep(
+        id = "deployment",
+        action = DeployPages()
+    )
     job(
         id = "deploy",
         runsOn = UbuntuLatest,
         needs = listOf(exportJob),
-        environment = Environment(name = "github-pages", url = expr { "steps.$deploymentId.outputs.page_url" }),
+        environment = Environment(name = "github-pages", url = expr(deploymentStep.outputs.pageUrl)),
     ) {
-        uses(
-            action = DeployPages(),
-            _customArguments = mapOf("id" to deploymentId)
-        )
+        uses(deploymentStep)
     }
 }
